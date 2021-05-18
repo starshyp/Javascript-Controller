@@ -3,14 +3,36 @@ class Column {
   constructor(_id, _amountOfFloors, _amountOfElevators) {
     this.ID = _id,
     this.status = 'offline',
-    this.elevatorsList = new Elevator(_id),
-    this.callButtonsList = new CallButton(buttonPressed)
+    this.elevatorsList = [new Elevator(_id),]
+    this.callButtonsList = [new CallButton(buttonPressed)]
   }
     requestElevator(_requestedFloor, _direction) {
-      for (let i = 0; Elevator.floorRequestButtonsList.length; i++) {
-        let requestedFloor = Elevator[i]
+      //call button is pressed
+      Elevator.floorRequestList.push(_requestedFloor)
+      //controller selects an available cage
+      if (this.callButtonsList == true && Elevator.status == 'offline') {
+      //route to person based on parameters provided by pressing the button
+        this.move()
+      } if (Elevator.currentFloor === _requestedFloor) {
+        Elevator.Door.status = 'open'
+      } return Elevator
+    }
+}
+
+    move() {
+      let destination = Elevator.floorRequestList[0]
+      this.status = 'online'
+      if (Elevator.currentFloor < destination) {
+        this.currentFloor++
+      } else if (Elevator.currentFloor > destination) {
+        this.currentFloor--
       }
     }
+
+    // openDoors() {
+    //
+    // }
+
 }
 
 class Elevator {
@@ -21,10 +43,18 @@ class Elevator {
     this.currentFloor = 1,
     this.door = new Door(_id),
     this.floorRequestButtonsList = new FloorRequestButton(_floor)
-    this.floorRequestList = [1,2,3,4,5,6,7,8,9,10]
+    this.floorRequestList = []
   }
     requestFloor(_requestedFloor) {
-      this.requestedFloor = _requestedFloor;
+      // this.requestedFloor = _requestedFloor;
+      //A person enters an elevator, selects a floor of the control panel and it moves to the floor requested. The parameter provided is the requested floor.
+      this.floorRequestList.push(floor)
+      Column.move()
+      if (this.currentFloor = _requestedFloor) {
+        this.door.status = 'open'
+      } else if {
+        CallButton.direction = this.direction
+      }
     }
 }
 
@@ -62,7 +92,8 @@ class Door {
 }
 
 
-
+let chosenElevator = Column.requestElevator(1,'up')
+chosenElevator.requestFloor(6)
 
 //instatiating objects through a loop
 
@@ -80,6 +111,7 @@ elevator1.door.status = 'opened'
 console.log(elevator1);
 console.log(elevator2);
 
+requestElevator(a, b)
 
 //code variations
 // let callButtonUp1 = new CallButton(1,1,up)
