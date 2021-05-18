@@ -70,9 +70,7 @@ class CallButton {
     for (let i = 1; i <= 10; i++) {
       new CallButton(i,i,up),
       new CallButton(i,i,down)
-    } while (new Door.status == 'closed') {
-
-    }
+    } while (new Door.status == 'closed') 
   }
 }
 
