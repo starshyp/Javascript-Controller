@@ -1,38 +1,66 @@
 //objects
 class Column {
   constructor(_id, _amountOfFloors, _amountOfElevators) {
+    // let elevatorsList;
+    // let callButtonList;
     this.ID = _id,
     this.status = 'offline',
-    this.elevatorsList = [new Elevator(_id),]
-    this.callButtonsList = [new CallButton(buttonPressed)]
+    this.elevatorsList = [],
+    this.callButtonsList = []
   }
     requestElevator(_requestedFloor, _direction) {
-      //call button is pressed
-      Elevator.floorRequestList.push(_requestedFloor)
-      //controller selects an available cage
-      if (this.callButtonsList == true && Elevator.status == 'offline') {
-      //route to person based on parameters provided by pressing the button
-        this.move()
-      } if (Elevator.currentFloor === _requestedFloor) {
-        Elevator.Door.status = 'open'
-      } return Elevator
+    let elevator = new Elevator(_id, _amountOfFloors)
+    let button = new CallButton(_id, _floor, _direction)
+    //select an elevator
+    this.elevatorsList.forEach((item, i) => {
+      this.elevatorsList.push(elevator)
+      console.log(elevatorList);
+    });
+    this.callButtonsList.forEach((item, i) => {
+      this.callButtonsList.push(button)
+      console.log(callButtonList);
+    });
+
+      // for (i = 0; i < elevators.length; i++) {
+      // let elevator = new Elevator(_id, _amountOfFloors)
+      // this.elevatorsList.push(elevator)
+      // }
+      //
+      // for (i = 0; i < floors.length; i++) {
+      // let button = new CallButton(_id, _floor, _direction)
+      // callButtonsList.push(button)
+      // }
+
+    elevator.floorRequestList.push(_requestedFloor)
+    console.log(elevatot.floorRequestList);
+
+    if (this.elevatorsList === _requestedFloor) {
+      elevator.door.status = 'open';
+      console.log(elevator.door.status);
+    } else if (this.elevatorsList < _requestedFloor) {
+      this._direction = 'up';
+      console.log(this._direction);
+    } else if (this.elevatorsList > _requestedFloor) {
+      this._direction = 'down';
+      console.log(this._direction);
     }
-}
 
-    move() {
-      let destination = Elevator.floorRequestList[0]
-      this.status = 'online'
-      if (Elevator.currentFloor < destination) {
-        this.currentFloor++
-      } else if (Elevator.currentFloor > destination) {
-        this.currentFloor--
-      }
+    // Make the chosen elevator move to the user
+      // Operate the doors
+    if (this.callButtonsList === _requestedFloor) {
+      elevator.door.status = 'open';
+      console.log(elevator.door.status);
+    } else if (this.callButtonsList < _requestedFloor) {
+      this._direction = 'up';
+      console.log(this._direction);
+    } else if (this.callButtonsList > _requestedFloor) {
+      this._direction = 'down';
+      console.log(this._direction);
     }
 
-    // openDoors() {
-    //
-    // }
-
+    // Return the chosen elevator, to be used by the elevator requestFloor method
+    return elevator;
+  }
 }
 
 class Elevator {
@@ -42,18 +70,24 @@ class Elevator {
     this.direction,
     this.currentFloor = 1,
     this.door = new Door(_id),
-    this.floorRequestButtonsList = new FloorRequestButton(_floor)
+    this.floorRequestButtonsList = new FloorRequestButton(_floor),
     this.floorRequestList = []
   }
     requestFloor(_requestedFloor) {
       // this.requestedFloor = _requestedFloor;
       //A person enters an elevator, selects a floor of the control panel and it moves to the floor requested. The parameter provided is the requested floor.
-      this.floorRequestList.push(floor)
-      Column.move()
-      if (this.currentFloor = _requestedFloor) {
-        this.door.status = 'open'
-      } else if {
-        CallButton.direction = this.direction
+      this.floorRequestList.push(_requestedFloor)
+      if (this.currentFloor === _requestedFloor) {
+        this.door.status = 'open';
+        console.log(`Door Status: ${this.door.status}`);
+      } else if (this.currentFloor < _requestedFloor) {
+        this.currentFloor++;
+        this.status = 'in transit';
+        console.log(this.currentFloor);
+      } else if (this.currentFloor > _requestedFloor) {
+        this.currentFloor--;
+        this.status = 'in transit';
+        console.log(this.currentFloor);
       }
     }
 }
@@ -65,19 +99,19 @@ class CallButton {
     this.floor = _floor,
     this.direction
   }
-  function buttonPressed(buttonNum) {
-    let
-    for (let i = 1; i <= 10; i++) {
-      new CallButton(i,i,up),
-      new CallButton(i,i,down)
-    } while (new Door.status == 'closed') 
-  }
+  // function buttonPressed(buttonNum) {
+  //   let
+  //   for (let i = 1; i <= 10; i++) {
+  //     new CallButton(i,i,up),
+  //     new CallButton(i,i,down)
+  //   } while (new Door.status == 'closed')
+  // }
 }
 
 class FloorRequestButton {
   constructor(_id, _floor) {
     this.ID = _id,
-    this.status = 'off',
+    this.status = 'closed',
     this.floor = _floor
   }
 }
@@ -89,8 +123,8 @@ class Door {
   }
 }
 
-
-let chosenElevator = Column.requestElevator(1,'up')
+let column1 = new Column(1,5,7)
+let chosenElevator = column1.requestElevator(1,'up')
 chosenElevator.requestFloor(6)
 
 //instatiating objects through a loop
@@ -104,12 +138,32 @@ chosenElevator.requestFloor(6)
 
 let elevator1 = new Elevator(1,10)
 let elevator2 = new Elevator(2,10)
+elevatorArray.push(elevator1) //
 elevator1.door.status = 'opened'
 
 console.log(elevator1);
 console.log(elevator2);
 
 requestElevator(a, b)
+
+let column2 = new Column(1, 5, 2)
+column2.elevatorsList[0].currentFloor = 5
+column2.requestElevator
+
+//
+
+
+// callButton.direction = this.direction
+//
+// move() {
+//   let destination = elevator.floorRequestList[0]
+//   this.status = 'online'
+//   if (this.currentFloor < destination) {
+//     this.currentFloor++;
+//   } else if (elevator.currentFloor > destination) {
+//     this.currentFloor--;
+//   }
+// }
 
 //code variations
 // let callButtonUp1 = new CallButton(1,1,up)
