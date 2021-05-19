@@ -22,13 +22,13 @@ class Column {
     // });
 
     //select an elevator
-      for (i = 0; i < _numberOfElevators.length; i++) {
+      for (i = 0; i < _amountOfElevators.length; i++) {
 
       let elevator = new Elevator(_id, _amountOfFloors)
       this.elevatorsList.push(elevator)
       }
 
-      for (i = 0; i < _numberOfFloors.length; i++) {
+      for (i = 0; i < _amountOfFloors.length; i++) {
 
       let button = new CallButton(_id, _floor, _direction)
       callButtonsList.push(button)
