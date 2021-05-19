@@ -14,11 +14,11 @@ class Column {
     //select an elevator
     this.elevatorsList.forEach((item, i) => {
       this.elevatorsList.push(elevator)
-      console.log(elevatorList);
+      console.log(elevatorsList);
     });
     this.callButtonsList.forEach((item, i) => {
       this.callButtonsList.push(button)
-      console.log(callButtonList);
+      console.log(callButtonsList);
     });
 
       // for (i = 0; i < elevators.length; i++) {
@@ -32,7 +32,7 @@ class Column {
       // }
 
     elevator.floorRequestList.push(_requestedFloor)
-    console.log(elevatot.floorRequestList);
+    console.log(elevator.floorRequestList);
 
     if (this.elevatorsList === _requestedFloor) {
       elevator.door.status = 'open';
@@ -136,21 +136,22 @@ chosenElevator.requestFloor(6)
 //
 // floorRequestButton2.status = 'on'
 
-let elevator1 = new Elevator(1,10)
-let elevator2 = new Elevator(2,10)
-elevatorArray.push(elevator1) //
-elevator1.door.status = 'opened'
-
-console.log(elevator1);
-console.log(elevator2);
-
-requestElevator(a, b)
-
-let column2 = new Column(1, 5, 2)
-column2.elevatorsList[0].currentFloor = 5
-column2.requestElevator
-
+/////////////////////////
+// let elevator1 = new Elevator(1,10)
+// let elevator2 = new Elevator(2,10)
+// elevatorArray.push(elevator1) //
+// elevator1.door.status = 'opened'
 //
+// console.log(elevator1);
+// console.log(elevator2);
+//
+// requestElevator(a, b)
+//
+// let column2 = new Column(1, 5, 2)
+// column2.elevatorsList[0].currentFloor = 5
+// column2.requestElevator
+
+/////////////////////////
 
 
 // callButton.direction = this.direction
