@@ -7,37 +7,32 @@ class Column {
     this.status = 'offline',
     this.elevatorsList = [],
     this.callButtonsList = []
+
+    //Select an elevator/available cage
+    for (let i = 0; i < _amountOfElevators.length; i++) {
+    let elevator = new Elevator(i, _amountOfElevators)
+    this.elevatorsList.push(elevator)
+    }
+    for (let i = 0; i <= _amountOfFloors.length; i++) {
+    let floorButton = i;
+      if (i != 1) {
+        let button = new CallButton(i, 'off', floorButton, 'down');
+        this.callButtonsList.push(button)
+      } else if (i != _amountOfFloors) {
+        let button = new CallButton(i, 'off', floorButton, 'up');
+        this.callButtonsList.push(button)
+      }
+    }
   }
+
     requestElevator(_requestedFloor, _direction) {
-    let elevator = new Elevator(_id, _amountOfFloors)
-    // let button = new CallButton(_id, _floor, _direction)
+    let elevator2 = new Elevator(0, 0)
+    elevator2.floorRequestList.push(_requestedFloor)
+    elevator2.floorRequestList.sort(sortFloors)
+    console.log(elevator2.floorRequestList);
 
-    // this.elevatorsList.forEach((item, i) => {
-    //   this.elevatorsList.push(elevator)
-    //   console.log(elevatorsList);
-    // });
-    // this.callButtonsList.forEach((item, i) => {
-    //   this.callButtonsList.push(button)
-    //   console.log(callButtonsList);
-    // });
-
-    //select an elevator
-      for (i = 0; i < _amountOfElevators.length; i++) {
-
-      let elevator = new Elevator(_id, _amountOfFloors)
-      this.elevatorsList.push(elevator)
-      }
-
-      for (i = 0; i < _amountOfFloors.length; i++) {
-
-      let button = new CallButton(_id, _floor, _direction)
-      callButtonsList.push(button)
-      }
-
-    //sort
-    elevator.floorRequestList.push(_requestedFloor)
-    console.log(elevator.floorRequestList);
-
+    //Make the chosen elevator move to the user/routed
+      //Operate the doors
     if (this.elevatorsList === _requestedFloor) {
       elevator.door.status = 'open';
       console.log(elevator.door.status);
@@ -49,21 +44,24 @@ class Column {
       console.log(this._direction);
     }
 
+    // Return the chosen elevator, to be used by the elevator requestFloor method
+    let elevator3 = new Elevator(0, 0);
+    return elevator3.requestFloor(elevator3);
+    console.log(elevator3.requestFloor);
+
     // Make the chosen elevator move to the user
       // Operate the doors
-    if (this.callButtonsList === _requestedFloor) {
-      elevator.door.status = 'open';
-      console.log(elevator.door.status);
-    } else if (this.callButtonsList < _requestedFloor) {
-      this._direction = 'up';
-      console.log(this._direction);
-    } else if (this.callButtonsList > _requestedFloor) {
-      this._direction = 'down';
-      console.log(this._direction);
-    }
 
-    // Return the chosen elevator, to be used by the elevator requestFloor method
-    return elevator;
+    // if (this.callButtonsList === _requestedFloor) {
+    //   elevator.door.status = 'open';
+    //   console.log(elevator.door.status);
+    // } else if (this.callButtonsList < _requestedFloor) {
+    //   this._direction = 'up';
+    //   console.log(this._direction);
+    // } else if (this.callButtonsList > _requestedFloor) {
+    //   this._direction = 'down';
+    //   console.log(this._direction);
+    // }
     }
 }
 
@@ -74,14 +72,14 @@ class Elevator {
     this.direction,
     this.currentFloor = 1,
     this.door = new Door(_id),
-    this.floorRequestButtonsList = new FloorRequestButton(_floor),
+    this.floorRequestButtonsList = [],
     this.floorRequestList = []
   }
     requestFloor(_requestedFloor) {
       // this.requestedFloor = _requestedFloor;
       //A person enters an elevator, selects a floor of the control panel and it moves to the floor requested. The parameter provided is the requested floor.
       this.floorRequestList.push(_requestedFloor)
-      // sort
+      this.floorRequestList.sort(sortFloors)
       if (this.currentFloor === _requestedFloor) {
         this.door.status = 'open';
         console.log(`Door Status: ${this.door.status}`);
@@ -100,7 +98,7 @@ class Elevator {
 class CallButton {
   constructor(_id, _floor, _direction) {
     this.ID = _id,
-    this.status = 'closed',
+    this.status = 'off',
     this.floor = _floor,
     this.direction
   }
@@ -126,6 +124,11 @@ class Door {
     this.ID = _id,
     this.status = 'closed'
   }
+}
+
+//functions
+function sortFloors(a,b) {
+  return a-b;
 }
 
 
@@ -203,3 +206,17 @@ console.log(elevator1);
 // let callButtonDown8 = new CallButton(8,8,down)
 // let callButtonDown9 = new CallButton(9,9,down)
 // let callButtonDown10 = new CallButton(10,10,down)
+
+
+
+//loop variations
+// let button = new CallButton(_id, _floor, _direction)
+
+// this.elevatorsList.forEach((item, i) => {
+//   this.elevatorsList.push(elevator)
+//   console.log(elevatorsList);
+// });
+// this.callButtonsList.forEach((item, i) => {
+//   this.callButtonsList.push(button)
+//   console.log(callButtonsList);
+// });
