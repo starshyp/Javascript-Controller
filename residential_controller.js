@@ -123,9 +123,6 @@ class Door {
   }
 }
 
-let column1 = new Column(1,5,7)
-let chosenElevator = column1.requestElevator(1,'up')
-chosenElevator.requestFloor(6)
 
 //instatiating objects through a loop
 
@@ -137,6 +134,10 @@ chosenElevator.requestFloor(6)
 // floorRequestButton2.status = 'on'
 
 /////////////////////////
+// let column1 = new Column(1,5,7)
+// let chosenElevator = column1.requestElevator(1,'up')
+// chosenElevator.requestFloor(6)
+
 // let elevator1 = new Elevator(1,10)
 // let elevator2 = new Elevator(2,10)
 // elevatorArray.push(elevator1) //
