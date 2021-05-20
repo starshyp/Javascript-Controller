@@ -32,20 +32,9 @@ class Column {
     elevator2.floorRequestList.push(_requestedFloor)
     elevator2.floorRequestList.sort(sortFloors)
     console.log("Elevator Requested on Floor: " + elevator2.floorRequestList);
-
     //Make the chosen elevator move to the user/routed
       //Operate the doors
-    if (this.elevatorsList === _requestedFloor) {
-      elevator.door.status = 'open';
-      console.log("Door Status: " + elevator.door.status);
-    } else if (this.elevatorsList < _requestedFloor) {
-      this._direction = 'up';
-      console.log("Direction: " + this._direction);
-    } else if (this.elevatorsList > _requestedFloor) {
-      this._direction = 'down';
-      console.log("Direction: " + this._direction);
-    }
-
+    elevator2.go()
     // Return the chosen elevator, to be used by the elevator requestFloor method
     let elevator3 = new Elevator(0, 0);
     return elevator3.requestFloor(elevator3);
@@ -89,18 +78,55 @@ class Elevator {
       this.floorRequestList.push(_requestedFloor)
       console.log("Floor to go to once inside: " + this.floorRequestList)
       this.floorRequestList.sort(sortFloors)
-      if (this.currentFloor === _requestedFloor) {
-        this.door.status = 'open';
-        console.log(`Door Status: ${this.door.status}`);
-      } else if (this.currentFloor < _requestedFloor) {
-        this.currentFloor++;
+      this.go()
+    }
+
+      go() {
+        while (this.floorRequestList.length != 0) {
+        let requestedDestination = this.floorRequestList[0];
         this.status = 'in transit';
-        console.log("Current Floor: " + this.currentFloor);
-      } else if (this.currentFloor > _requestedFloor) {
-        this.currentFloor--;
-        this.status = 'in transit';
-        console.log("Current Floor: " + this.currentFloor);
+
+        if (this.currentFloor === requestedDestination) {
+          this.status = 'at destination'
+          this.direction = 'idle';
+          this.door.status = 'open';
+          console.log("Door Status: " + this.door.status);
+        } else if (this.currentFloor < requestedDestination) {
+          this.direction = 'up';
+            while (this.currentFloor < requestedDestination) {
+              console.log("Current Floor: " + this.currentFloor);
+              this.currentFloor++;
+            }
+        } else if (this.currentFloor > requestedDestination) {
+          this.direction = 'down';
+            while (this.currentFloor > requestedDestination) {
+              console.log("Current Floor: " + this.currentFloor);
+              this.currentFloor--;
+            }
+        }
+        this.status = 'offline'
+        this.floorRequestList.shift()
+
+        // while (this.currentFloor === _requestedFloor) {
+        //   this.status = 'at destination'
+        //   this.direction = 'idle';
+        //   this.door.status = 'open';
+        //   console.log(`Door Status: ${this.door.status}`);
+        // }
+        // while (this.currentFloor < _requestedFloor) {
+        //   this.currentFloor++;
+        //   this.status = 'in transit';
+        //   this.direction = 'up'
+        //   console.log("Current Floor: " + this.currentFloor);
+        // }
+        // while (this.currentFloor > _requestedFloor) {
+        //   this.currentFloor--;
+        //   this.status = 'in transit';
+        //   this.direction = 'down'
+        //   console.log("Current Floor: " + this.currentFloor);
+        // }
       }
+      this.status = 'idle'
     }
 }
 
@@ -141,32 +167,32 @@ function sortFloors(a,b) {
 }
 
 //SCENARIO 1
-// let column1 = new Column(1,1,1) //_id, _amountOfFloors, _amountOfElevators
-// column1.requestElevator(3,'up') //_requestedFloor, _direction
-// // console.log(column1);
-//
-// let elevator1 = new Elevator(1,4) //_id, _amountOfFloors
-// elevator1.requestFloor(7) //_requestedFloor
+let column1 = new Column(1,1,1) //_id, _amountOfFloors, _amountOfElevators
+column1.requestElevator(3,'up') //_requestedFloor, _direction
+// console.log(column1);
+
+let elevator1 = new Elevator(1,4) //_id, _amountOfFloors
+elevator1.requestFloor(7) //_requestedFloor
 // console.log(elevator1);
 
 //SCENARIO 2
-let column1 = new Column(1,2,2)
-column1.requestElevator(1,'down')
-
-let elevator1 = new Elevator(1,5)
-elevator1.requestFloor(6)
+// let column1 = new Column(1,2,2)
+// column1.requestElevator(1,'down')
 //
-let column2 = new Column(2,3,2)
-column2.requestElevator(3,'down')
-
-let elevator2 = new Elevator(2,2)
-elevator2.requestFloor(5)
+// let elevator1 = new Elevator(1,5)
+// elevator1.requestFloor(6)
+// //
+// let column2 = new Column(2,3,2)
+// column2.requestElevator(3,'down')
 //
-let column3 = new Column(3,4,1)
-column3.requestElevator(9,'up')
-
-let elevator3 = new Elevator(3,7)
-elevator3.requestFloor(9)
+// let elevator2 = new Elevator(2,2)
+// elevator2.requestFloor(5)
+// //
+// let column3 = new Column(3,4,1)
+// column3.requestElevator(9,'up')
+//
+// let elevator3 = new Elevator(3,7)
+// elevator3.requestFloor(9)
 
 //SCENARIO 3
 // let column1 = new Column(1,7,1)
