@@ -1,4 +1,5 @@
 //objects
+//OUTSIDE ELEVATOR
 class Column {
   constructor(_id, _amountOfFloors, _amountOfElevators) {
     // let elevatorsList;
@@ -26,21 +27,56 @@ class Column {
     // console.table("Call Buttons List: " + JSON.stringify(this.callButtonsList));
   }
 
+    bestElevator(_requestedFloor) {
+      // let getElevator = this.elevatorsList[0]
+      // return getElevator
+      let getElevator;
+      let floorCost = 10000;
+
+      for (let i = 0; i < this.elevatorsList.length; i++) {
+        if (this.elevatorsList[i].status == 'idle') {
+          let elevatorDistance = Math.abs(this.elevatorsList[i].currentFloor - _requestedFloor);
+          if (elevatorDistance < floorCost) {
+            floorCost = elevatorDistance;
+            getElevator = this.elevatorsList[i];
+            getElevator.status = 'active'
+          }
+        }
+      }
+      return getElevator;
+      console.log(getElevator);
+    };
+
     requestElevator(_requestedFloor, _direction) {
     //Select an elevator/available cage
-    this.bestElevator(_requestedFloor, _direction);
+    // let elevator2 = new Elevator(this.ID);
+    let getElevator = this.bestElevator(_requestedFloor);
 
-    //process request
-    let elevator2 = new Elevator(this.ID);
-    elevator2.floorRequestList.push(_requestedFloor)
-    elevator2.floorRequestList.sort(sortFloors)
-    console.log("Elevator Requested on Floor: " + elevator2.floorRequestList);
+    console.log("Elevator " + this.ID + " is on route.");
+    getElevator.floorRequestList.push(_requestedFloor);
+    console.log(floorRequestList);
+    getElevator.floorRequestList.sort(sortFloors);
 
     //Make the chosen elevator move to the user/routed
-    elevator2.go()
+    getElevator.go(_requestedFloor);
 
     //Operate the doors
-    elevator2.open()
+    getElevator.open();
+
+    return getElevator
+    // console.log("Elevator Requested on Floor: " + getElevator.floorRequestList);
+
+    //process request
+    // let elevator2 = new Elevator(this.ID);
+    // elevator2.floorRequestList.push(_requestedFloor)
+    // elevator2.floorRequestList.sort(sortFloors)
+    // console.log("Elevator Requested on Floor: " + elevator2.floorRequestList);
+
+    //Make the chosen elevator move to the user/routed
+    // elevator2.go()
+
+    //Operate the doors
+    // elevator2.open()
 
     // Return the chosen elevator, to be used by the elevator requestFloor method
     // let elevator3 = new Elevator(this.ID);
@@ -58,26 +94,9 @@ class Column {
     //   console.log(this._direction);
     // }
   };
-
-    bestElevator(_requestedFloor, _direction) {
-      let findElevator;
-      let floorCost = 999999;
-      for (let i = 0; i < this.elevatorsList.length; i++) {
-
-        let elevatorToll = Math.abs(this.elevatorsList[i].currentFloor - _requestedFloor);
-          if (elevatorToll < floorCost) {
-            floorCost = elevatorToll;
-            findElevator = this.elevatorsList[i];
-          }
-          // findElevator = _requestedFloor;
-      }
-      return findElevator;
-      console.log(findElevator);
-      console.log("Elevator " + this.ID + " is on route.");
-    };
-
 }
 
+//INSIDE ELEVATOR
 class Elevator {
   constructor(_id, _amountOfFloors) {
     this.ID = _id,
@@ -207,21 +226,21 @@ function sortFloors(a,b) {
 }
 
 
-//SCENARIO 1 REVISED *NOT WORKING*
-// let column = new Column("A",1,1) //_id, _amountOfFloors, _amountOfElevators
-// column.elevatorsList[0].currentFloor = 3
-// let elevator = column.requestElevator(3,'up') //_requestedFloor, _direction
-// elevator.requestFloor(7) //_requestedFloor
+// SCENARIO 1 REVISED *NOT WORKING*
+let column = new Column("A",1,1) //_id, _amountOfFloors, _amountOfElevators
+column.elevatorsList[0].currentFloor = 3
+let elevator = column.requestElevator(3,'up') //_requestedFloor, _direction
+elevator.requestFloor(7) //_requestedFloor
 
-// SCENARIO 1
-let column1 = new Column("A",1,1) //_id, _amountOfFloors, _amountOfElevators
-column1.elevatorsList[0].currentFloor = 3
-column1.requestElevator(3,'up') //_requestedFloor, _direction
-// console.log(column1);
-
-let elevator1 = new Elevator("A",4) //_id, _amountOfFloors
-elevator1.requestFloor(7) //_requestedFloor
-// console.log(elevator1);
+// // SCENARIO 1
+// let column1 = new Column("A",1,1) //_id, _amountOfFloors, _amountOfElevators
+// column1.elevatorsList[0].currentFloor = 3
+// column1.requestElevator(3,'up') //_requestedFloor, _direction
+// // console.log(column1);
+//
+// let elevator1 = new Elevator("A",4) //_id, _amountOfFloors
+// elevator1.requestFloor(7) //_requestedFloor
+// // console.log(elevator1);
 
 
 //SCENARIO 2
@@ -365,3 +384,6 @@ elevator1.requestFloor(7) //_requestedFloor
 //   this.callButtonsList.push(button)
 //   console.log(callButtonsList);
 // });
+
+
+//old best elevator function
