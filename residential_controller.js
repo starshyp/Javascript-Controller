@@ -8,7 +8,6 @@ class Column {
     this.elevatorsList = [],
     this.callButtonsList = []
 
-    //Select an elevator/available cage
     for (let i = 0; i < _amountOfElevators; i++) {
     let elevator = new Elevator(i, _amountOfElevators)
     this.elevatorsList.push(elevator)
@@ -28,20 +27,25 @@ class Column {
   }
 
     requestElevator(_requestedFloor, _direction) {
-    let elevator2 = new Elevator(0, 0)
+    //Select an elevator/available cage
+    this.bestElevator(_requestedFloor, _direction);
+
+    //process request
+    let elevator2 = new Elevator(this.ID);
     elevator2.floorRequestList.push(_requestedFloor)
     elevator2.floorRequestList.sort(sortFloors)
     console.log("Elevator Requested on Floor: " + elevator2.floorRequestList);
-    //Make the chosen elevator move to the user/routed
-      //Operate the doors
-    elevator2.go()
-    // Return the chosen elevator, to be used by the elevator requestFloor method
-    let elevator3 = new Elevator(0, 0);
-    return elevator3.requestFloor(elevator3);
-    console.log("return elevator: " + elevator3.requestFloor);
 
-    // Make the chosen elevator move to the user
-      // Operate the doors
+    //Make the chosen elevator move to the user/routed
+    elevator2.go()
+
+    //Operate the doors
+    elevator2.open()
+
+    // Return the chosen elevator, to be used by the elevator requestFloor method
+    // let elevator3 = new Elevator(this.ID);
+    // return elevator3.requestFloor(_requestedFloor);
+    // console.log("return elevator: " + elevator3.requestFloor);
 
     // if (this.callButtonsList === _requestedFloor) {
     //   elevator.door.status = 'open';
@@ -53,7 +57,25 @@ class Column {
     //   this._direction = 'down';
     //   console.log(this._direction);
     // }
-    }
+  };
+
+    bestElevator(_requestedFloor, _direction) {
+      let findElevator;
+      let floorCost = 999999;
+      for (let i = 0; i < this.elevatorsList.length; i++) {
+
+        let elevatorToll = Math.abs(this.elevatorsList[i].currentFloor - _requestedFloor);
+          if (elevatorToll < floorCost) {
+            floorCost = elevatorToll;
+            findElevator = this.elevatorsList[i];
+          }
+          // findElevator = _requestedFloor;
+      }
+      return findElevator;
+      console.log(findElevator);
+      console.log("Elevator " + this.ID + " is on route.");
+    };
+
 }
 
 class Elevator {
@@ -75,10 +97,18 @@ class Elevator {
     requestFloor(_requestedFloor) {
       // this.requestedFloor = _requestedFloor;
       //A person enters an elevator, selects a floor of the control panel and it moves to the floor requested. The parameter provided is the requested floor.
+
+      //process request
+      // for (let i = 0; i < this._requestedFloor; i++) {}
       this.floorRequestList.push(_requestedFloor)
       console.log("Floor to go to once inside: " + this.floorRequestList)
       this.floorRequestList.sort(sortFloors)
+
+      //Make the elevator move to the user’s destination
       this.go()
+
+      //Operate the doors
+      this.open()
     }
 
       go() {
@@ -94,19 +124,22 @@ class Elevator {
         } else if (this.currentFloor < requestedDestination) {
           this.direction = 'up';
             while (this.currentFloor < requestedDestination) {
-              console.log("Current Floor: " + this.currentFloor);
+              console.log("Elevator " + this.ID + " is currently on floor: " + this.currentFloor);
               this.currentFloor++;
+              // this.currentFloor = this.currentFloor;
             }
         } else if (this.currentFloor > requestedDestination) {
           this.direction = 'down';
             while (this.currentFloor > requestedDestination) {
-              console.log("Current Floor: " + this.currentFloor);
+              console.log("Elevator " + this.ID + " is currently on floor: " + this.currentFloor);
               this.currentFloor--;
+              // this.currentFloor = this.currentFloor;
             }
         }
         this.status = 'offline'
         this.floorRequestList.shift()
-
+        console.log("Elevator " + this.ID + " has arrived on floor: " + this.currentFloor)
+        console.log("Opening doors <>")
         // while (this.currentFloor === _requestedFloor) {
         //   this.status = 'at destination'
         //   this.direction = 'idle';
@@ -128,6 +161,13 @@ class Elevator {
       }
       this.status = 'idle'
     }
+
+      open() {
+        while (this.currentFloor === this._requestedFloor) {
+          this.door.status = 'open';
+          console.log("Opening doors <>")
+        }
+      }
 }
 
 class CallButton {
@@ -166,16 +206,45 @@ function sortFloors(a,b) {
   return a-b;
 }
 
-//SCENARIO 1
-let column1 = new Column(1,1,1) //_id, _amountOfFloors, _amountOfElevators
+
+//SCENARIO 1 REVISED *NOT WORKING*
+// let column = new Column("A",1,1) //_id, _amountOfFloors, _amountOfElevators
+// column.elevatorsList[0].currentFloor = 3
+// let elevator = column.requestElevator(3,'up') //_requestedFloor, _direction
+// elevator.requestFloor(7) //_requestedFloor
+
+// SCENARIO 1
+let column1 = new Column("A",1,1) //_id, _amountOfFloors, _amountOfElevators
+column1.elevatorsList[0].currentFloor = 3
 column1.requestElevator(3,'up') //_requestedFloor, _direction
 // console.log(column1);
 
-let elevator1 = new Elevator(1,4) //_id, _amountOfFloors
+let elevator1 = new Elevator("A",4) //_id, _amountOfFloors
 elevator1.requestFloor(7) //_requestedFloor
 // console.log(elevator1);
 
+
 //SCENARIO 2
+//
+// let column = new Column("B",2,2);
+// column.elevatorsList[0].currentFloor = 3
+// column.requestElevator(1,'down');
+//
+// let elevator = new Elevator("B",5)
+// elevator.requestFloor(6)
+//
+// column.elevatorsList[0].currentFloor = 6
+// let elevator1 = column.requestElevator(3,'down')
+// elevator.requestFloor(5)
+//
+// let column2 = new Column("A",4,1)
+// column2.elevatorsList[0].currentFloor = 10
+// column2.requestElevator(9,'up')
+//
+// let elevator2 = new Elevator("A",7)
+// elevator2.requestFloor(9)
+
+// SCENARIO 2 - ORIGINAL
 // let column1 = new Column(1,2,2)
 // column1.requestElevator(1,'down')
 //
@@ -193,6 +262,15 @@ elevator1.requestFloor(7) //_requestedFloor
 //
 // let elevator3 = new Elevator(3,7)
 // elevator3.requestFloor(9)
+
+//
+
+
+//
+// create a column and assign it to variable, then i assign the proper values to each of the elevators according to your needs (for you it will be likely through parameters).
+// then you use the call method on the column with the floor and direction if needed. you should be using your column methods and those methods should be interacting with anything else it needs
+
+
 
 //SCENARIO 3
 // let column1 = new Column(1,7,1)
