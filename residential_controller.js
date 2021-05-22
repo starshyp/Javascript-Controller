@@ -16,10 +16,10 @@ class Column {
     for (let j = 0; j <= _amountOfFloors; j++) {
     let floorButton = j;
       if (j != 1) {
-        let button = new CallButton(j, 'offline', floorButton, 'down');
+        let button = new CallButton(j, j, 'down');
         this.callButtonsList.push(button)
       } else if (j != _amountOfFloors) {
-        let button = new CallButton(j, 'offline', floorButton, 'up');
+        let button = new CallButton(j, j, 'up');
         this.callButtonsList.push(button)
       }
     }
