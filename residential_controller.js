@@ -227,6 +227,7 @@ function sortFloors(a,b) {
   return a-b;
 }
 
+module.exports = {Column, Elevator, CallButton, FloorRequestButton, Door}
 
 // SCENARIO 1 REVISED *NOT WORKING*
 // let column = new Column("A",1,1) //_id, _amountOfFloors, _amountOfElevators
@@ -284,7 +285,7 @@ elevator2.requestFloor(2)
 
 //
 
-//SCENARIO 3
+//SCENARIO 3 - OLD
 // let column1 = new Column(1,7,1)
 // column1.requestElevator(3,'down')
 //
